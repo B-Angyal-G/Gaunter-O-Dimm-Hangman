@@ -42,6 +42,7 @@ public class ArenaActivity extends AppCompatActivity {
     List<String> WordPool;
     TextView DispWord;
     StringBuilder ActWordPattern;
+    String LastPattern;
 
     Map<String, List<String>> WordsByPatter = new HashMap<>();
 
@@ -153,7 +154,6 @@ public class ArenaActivity extends AppCompatActivity {
 
                 // Gép választása
                 GauntersChoice();
-                printWord();
 
 
                 // Ha az utolsónak tippelt betű kiadja a "keresett" szót, akkor nyert a játékos
@@ -163,8 +163,13 @@ public class ArenaActivity extends AppCompatActivity {
                 }
 
                 // Akasztófa frissítése
-                ++GallowNum;
-                printGallow();
+                if (LastPattern.equals("_".repeat(LENGTH))) {
+                    ++GallowNum;
+                    printGallow();
+                }
+                else {
+                    printWord();
+                }
 
                 // Ha elfogyott a játékos élete, akkor veszített
                 if (GallowNum == 11) {
@@ -314,6 +319,7 @@ public class ArenaActivity extends AppCompatActivity {
 
             mergePatterns(MaxEntry.getKey());
             WordPool = MaxEntry.getValue();
+            LastPattern = MaxEntry.getKey();
             WordsByPatter.clear();
         }
         else {
@@ -370,6 +376,7 @@ public class ArenaActivity extends AppCompatActivity {
 
             mergePatterns(ChoosenEntry.getKey());
             WordPool = ChoosenEntry.getValue();
+            LastPattern = ChoosenEntry.getKey();
             WordsByPatter.clear();
         }
     }
