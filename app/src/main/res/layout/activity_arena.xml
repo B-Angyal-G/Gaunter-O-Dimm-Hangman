@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#efe6dc"
+    tools:context=".ArenaActivity"
+    tools:ignore="NamespaceTypo">
+
+
+    <ImageView
+        android:id="@+id/gallowTree"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="35dp" />
+
+
+    <TextView
+        android:id="@+id/wordText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:typeface="monospace"
+        android:layout_below="@+id/gallowTree"
+        android:layout_marginTop="30dp"/>
+
+
+    <Button
+        android:id="@+id/letterInputBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wordText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:text="Választ" />
+
+
+    <GridLayout
+        android:id="@+id/alphabetGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/letterInputBtn"
+        android:layout_marginTop="25dp"
+        android:columnCount="7"
+        android:useDefaultMargins="true"
+        android:alignmentMode="alignMargins">
+    </GridLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alphabetGrid"
+        android:layout_marginTop="35dp"
+        android:layout_centerHorizontal="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_margin="32dp"
+        android:hint="Tipp leadása">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/guessText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/guessButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/outlinedTextField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="TIPP" />
+
+
+
+</RelativeLayout>
