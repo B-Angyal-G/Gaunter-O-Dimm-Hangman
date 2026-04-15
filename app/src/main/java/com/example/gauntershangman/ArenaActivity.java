@@ -35,7 +35,6 @@ import java.util.Map;
 public class ArenaActivity extends AppCompatActivity {
     int LENGTH;
     int DIFFICULTY;
-    File DebugFile;
 
     // Akasztófa szükségletei
     ImageView Gallow;
@@ -74,14 +73,6 @@ public class ArenaActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        // DEBUG FILE TÖRLÉSE
-        DebugFile = new File(this.getFilesDir(), "DebugPrint.txt");
-        try (PrintWriter writer = new PrintWriter(new FileWriter(DebugFile, false))) {
-            writer.println("");
-        } catch (IOException e) {
-            Log.e(TAG, "Hiba a fájlírásnál", e);
-        }
 
         // Szóhossz és nehézségi szint áthozatala
         LENGTH = getIntent().getIntExtra("WORD_LENGTH", 2);
@@ -156,9 +147,11 @@ public class ArenaActivity extends AppCompatActivity {
 
         LetterInput.setOnClickListener(v -> {
             if (SelectedLetter != ' ') {
-                // TODO : AKASZTÓFA FUNKCIÓK
+                // Akasztófa funkciók
+                // Szótár feltöltése
                 fillMap(SelectedLetter);
 
+                // Gép választása
                 GauntersChoice();
                 printWord();
 
@@ -178,26 +171,6 @@ public class ArenaActivity extends AppCompatActivity {
                     gameOver(false);
                     return;
                 }
-
-
-                for (Map.Entry<String, List<String>> entry : WordsByPatter.entrySet()) {
-                    String minta = entry.getKey();
-                    List<String> szavak = entry.getValue();
-
-                    // Kiírjuk a kulcsot és a hozzá tartozó lista méretét
-                    debugPrintFile("Minta: [" + minta + "] -> " + String.valueOf(szavak.size()) + " szó");
-
-                    // Opcionálisan kilistázzuk a szavakat is vesszővel elválasztva
-                    // debugPrintFile(szavak);
-                }
-
-
-
-                debugPrintFile("Kiválasztott Minta:");
-                debugPrintFile(ActWordPattern.toString());
-                debugPrintFile("\n\n");
-//                debugPrintFile(WordPool);
-
 
                 // Kiválasztott gomb megváltoztatása
                 SelectedButton.setEnabled(false);
@@ -287,27 +260,6 @@ public class ArenaActivity extends AppCompatActivity {
 
 
     // Akasztófa függvények
-
-    void debugPrintFile(List<String> words) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(DebugFile, true))) {
-            for (String word : words) {
-                writer.println(word);
-            }
-            Log.d(TAG, "Fájl mentve ide: " + DebugFile.getAbsolutePath());
-        } catch (IOException e) {
-            Log.e(TAG, "Hiba a fájlírásnál", e);
-        }
-    }
-
-    void debugPrintFile(String word) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(DebugFile, true))) {
-            writer.println(word);
-            Log.d(TAG, "Fájl mentve ide: " + DebugFile.getAbsolutePath());
-        } catch (IOException e) {
-            Log.e(TAG, "Hiba a fájlírásnál", e);
-        }
-    }
-
     void printWord() {
         String printing = ActWordPattern.toString().replace("", " ").trim();
         DispWord.setText(printing);
