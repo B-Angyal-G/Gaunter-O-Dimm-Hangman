@@ -62,7 +62,7 @@
         android:layout_centerHorizontal="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_margin="32dp"
-        android:hint="Tipp leadása">
+        android:hint="Tipp megadása">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/guessText"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -8,16 +7,47 @@
     android:background="#efe6dc"
     tools:context=".MainActivity">
 
+    <RadioGroup
+        android:id="@+id/langGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/langText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nyelv"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/huLang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Magyar"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/enLang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Angol"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+
     <TextView
         android:id="@+id/textLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/langGroup"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="30dp"
         android:text="Milyen hosszú szóra gondoljak?"
         android:textAlignment="center"
-        android:textSize="18dp"/>
+        android:textSize="18sp"/>
 
     <NumberPicker
         android:id="@+id/lengthNumberPicker"
@@ -37,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/lengthNumberPicker"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:text="Nehézségi szint"
         android:textAlignment="center"
         android:textSize="18dp"/>
@@ -52,13 +82,13 @@
 
     <Button
         android:id="@+id/start"
-        android:layout_width="120dp"
+        android:layout_width="130dp"
         android:layout_height="80dp"
         android:layout_below="@+id/difficultySpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:onClick="startGame"
         android:text="Indítás"
-        android:textSize="20dp"/>
+        android:textSize="20sp"/>
 
 </RelativeLayout>

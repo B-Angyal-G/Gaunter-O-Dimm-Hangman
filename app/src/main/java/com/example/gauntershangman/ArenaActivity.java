@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -19,13 +18,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +33,7 @@ import java.util.Map;
 public class ArenaActivity extends AppCompatActivity {
     int LENGTH;
     int DIFFICULTY;
+    String LANGUAGE;
 
     // Akasztófa szükségletei
     ImageView Gallow;
@@ -48,15 +47,13 @@ public class ArenaActivity extends AppCompatActivity {
 
 
     // Játéktérhez szükségesek
-    char[] HuAlphabet = {
-            'A', 'Á', 'B', 'C', 'D', 'E', 'É', 'F', 'G', 'H', 'I', 'Í', 'J',
-            'K', 'L', 'M', 'N', 'O', 'Ó', 'Ö', 'Ő',
-            'P', 'Q', 'R', 'S', 'T', 'U', 'Ú', 'Ü', 'Ű', 'V', 'W', 'X', 'Y', 'Z' };
+    char[] Alphabet;
     Drawable OrigBackground;
     char SelectedLetter = ' ';
     Button SelectedButton = null;
     Button LetterInput,  SubmitGuess;
     EditText GuessField;
+    TextInputLayout GuessFieldFrame;
 
     // TESZTELÉSHEZ
     private static final String TAG = "Hangman";
@@ -75,10 +72,27 @@ public class ArenaActivity extends AppCompatActivity {
             return insets;
         });
 
+
         // Szóhossz és nehézségi szint áthozatala
         LENGTH = getIntent().getIntExtra("WORD_LENGTH", 2);
         DIFFICULTY = getIntent().getIntExtra("DIFFICULTY", 0);
+        LANGUAGE = getIntent().getStringExtra("LANGUAGE");
 
+        // Nyelvi beállítás
+        LetterInput = findViewById(R.id.letterInputBtn);
+        SubmitGuess = findViewById(R.id.guessButton);
+        GuessFieldFrame = findViewById(R.id.outlinedTextField);
+
+
+        if (LANGUAGE.equals("HU")) {
+            LetterInput.setText("Választ");
+            SubmitGuess.setText("TIPP");
+            GuessFieldFrame.setHint("Tipp megadása");
+        } else {
+            LetterInput.setText("Choose");
+            SubmitGuess.setText("GUESS");
+            GuessFieldFrame.setHint("Your guess");
+        }
 
         // Szavak beolvasása a megfelelő file-ból
         WordPool = readWordsFromFile();
@@ -102,7 +116,19 @@ public class ArenaActivity extends AppCompatActivity {
         // Betűrács létrehozatala
         GridLayout grid = findViewById(R.id.alphabetGrid);
 
-        for (char letter : HuAlphabet) {
+        if (LANGUAGE.equals("HU")) {
+            Alphabet = new char[] {'A', 'Á', 'B', 'C', 'D', 'E', 'É', 'F', 'G', 'H', 'I', 'Í', 'J',
+                    'K', 'L', 'M', 'N', 'O', 'Ó', 'Ö', 'Ő',
+                    'P', 'Q', 'R', 'S', 'T', 'U', 'Ú', 'Ü', 'Ű', 'V', 'W', 'X', 'Y', 'Z'};
+        }
+        else
+        {
+            Alphabet = new char[] {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K', 'L',
+                    'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+        }
+
+
+        for (char letter : Alphabet) {
             Button b = new Button(this);
             b.setText(String.valueOf(letter));
 
@@ -144,8 +170,6 @@ public class ArenaActivity extends AppCompatActivity {
         }
 
         // Betűkérés gomb funkciója -> Listener
-        LetterInput = findViewById(R.id.letterInputBtn);
-
         LetterInput.setOnClickListener(v -> {
             if (SelectedLetter != ' ') {
                 // Akasztófa funkciók
@@ -188,25 +212,36 @@ public class ArenaActivity extends AppCompatActivity {
                 SelectedLetter = ' ';
             } else {
                 // Ha nincs kiválasztott betű
-                Toast.makeText(this, "Válassz egy betűt!", Toast.LENGTH_SHORT).show();
+                if (LANGUAGE.equals("HU")) {
+                    Toast.makeText(this, "Válassz egy betűt!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(this, "Choose a letter!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
 
         // Tipp gomb funkciója -> Listener
-        SubmitGuess = findViewById(R.id.guessButton);
         GuessField = findViewById(R.id.guessText);
-
         SubmitGuess.setOnClickListener(v -> {
             String Guess = GuessField.getText().toString();
 
             if (Guess.equals("")) {
-                Toast.makeText(this, "Írjon be egy tippelt szót!", Toast.LENGTH_SHORT).show();
+                if (LANGUAGE.equals("HU")) {
+                    Toast.makeText(this, "Írjon be egy tippelt szót!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Submit a word for guessing!", Toast.LENGTH_SHORT).show();
+                }
                 return;
             }
 
             if (Guess.length() != LENGTH) {
-                Toast.makeText(this, "A tippelt szó hossza nem felel meg a kiválasztott hossznak!", Toast.LENGTH_SHORT).show();
+                if (LANGUAGE.equals("HU")) {
+                    Toast.makeText(this, "A tippelt szó hossza nem felel meg a kiválasztott hossznak!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "The guessed word's length is not suitable!", Toast.LENGTH_SHORT).show();
+                }
                 return;
             }
 
@@ -234,8 +269,12 @@ public class ArenaActivity extends AppCompatActivity {
     // File beolvasása
     private List<String> readWordsFromFile () {
         List<String> words = new ArrayList<>();
-
-        String path = "magyar_szavak/magyar" + LENGTH + ".txt";
+        String path;
+        if (LANGUAGE.equals("HU")) {
+            path = "magyar_szavak/magyar" + LENGTH + ".txt";
+        } else {
+            path = "angol_szavak/english" + LENGTH + ".txt";
+        }
 
         try {
             InputStream is = getAssets().open(path);
@@ -400,31 +439,56 @@ public class ArenaActivity extends AppCompatActivity {
         GuessField.setText("");
         switch (SWITCH) {
             case 0: {
-                if (IfWin) {
-                    builder.setTitle("Gratulálok! 🎉");
-                    builder.setMessage("Kitaláltad a szót!");
+                if (LANGUAGE.equals("HU")) {
+                    if (IfWin) {
+                        builder.setTitle("Gratulálok! 🎉");
+                        builder.setMessage("Kitaláltad a szót!");
+                    } else {
+                        builder.setTitle("Vége a játéknak! 💀");
+                        builder.setMessage("Veszítettél.\nA gondolt szó ez volt: " + WordPool.get(index));
+                    }
                 } else {
-                    builder.setTitle("Vége a játéknak! 💀");
-                    builder.setMessage("Veszítettél.\nA gondolt szó ez volt: " + WordPool.get(index));
+                    if (IfWin) {
+                        builder.setTitle("Congratulation! 🎉");
+                        builder.setMessage("You guessed the word!");
+                    } else {
+                        builder.setTitle("Game Over! 💀");
+                        builder.setMessage("You lost.\nThe word I was thinking of was: " + WordPool.get(index));
+                    }
                 }
                 break;
             }
             case 1: {
-                builder.setTitle("Vége a játéknak!");
-                builder.setMessage("Nem ismerem ezt a szót.\nA gondolt szó ez volt: " + WordPool.get(index));
+                if (LANGUAGE.equals("HU")) {
+                    builder.setTitle("Vége a játéknak!");
+                    builder.setMessage("Nem ismerem ezt a szót.\nA gondolt szó ez volt: " + WordPool.get(index));
+                } else {
+                    builder.setTitle("Game over!");
+                    builder.setMessage("I don not know this word.\nThe word I was thinking of was: " + WordPool.get(index));
+                }
                 break;
             }
         }
 
-        // Új játék gomb
-        builder.setPositiveButton("Új játék", (dialog, which) -> {
-            finish();
-        });
+        if (LANGUAGE.equals("HU")) {
+            // Új játék gomb
+            builder.setPositiveButton("Új játék", (dialog, which) -> {
+                finish();
+            });
 
-        // Kilépés gomb
-        builder.setNegativeButton("Kilépés", (dialog, which) -> {
-            finishAffinity();
-        });
+            // Kilépés gomb
+            builder.setNegativeButton("Kilépés", (dialog, which) -> {
+                finishAffinity();
+            });
+        } else {
+            builder.setPositiveButton("New game", (dialog, which) -> {
+                finish();
+            });
+
+            builder.setNegativeButton("Exit", (dialog, which) -> {
+                finishAffinity();
+            });
+        }
 
         // Ne lehessen mellékattintással bezárni a döntés előtt
         builder.setCancelable(false);
