@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">GauntersHangman</string>
+    <string name="input_choose">Choose</string>
+    <string name="submit_guess">GUESS</string>
+    <string name="guess_field">Your guess</string>
+
+    <string name="toast_choose">Choose a letter!</string>
+    <string name="toast_guess_isempty">Submit a word for guessing!</string>
+    <string name="toast_guess_length">The guessed word\'s length is not suitable!</string>
+
+    <string name="win_title">Congratulation!</string>
+    <string name="win_message">You guessed the word!</string>
+    <string name="lose_title">Game over!</string>
+    <string name="lose_message">You lost.\nThe word I was thinking of was: %s</string>
+    <string name="neutral_title">Game over!</string>
+    <string name="neutral_message">I don not know this word.\nThe word I was thinking of was: %s</string>
+
+    <string name="new_game">New game</string>
+    <string name="exit">Exit</string>
+</resources>

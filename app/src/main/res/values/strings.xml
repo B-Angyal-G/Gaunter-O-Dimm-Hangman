@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">GauntersHangman</string>
+    <string name="input_choose">Választ</string>
+    <string name="submit_guess">TIPP</string>
+    <string name="guess_field">Tipp megadása</string>
+
+    <string name="toast_choose">Válassz egy betűt!</string>
+    <string name="toast_guess_isempty">Írjon be egy tippelt szót!</string>
+    <string name="toast_guess_length">A tippelt szó hossza nem felel meg a kiválasztott hossznak!</string>
+
+    <string name="win_title">Gratulálok!</string>
+    <string name="win_message">Kitaláltad a szót!</string>
+    <string name="lose_title">Vége a játéknak!</string>
+    <string name="lose_message">Veszítettél.\nA gondolt szó ez volt: %s</string>
+    <string name="neutral_title">Vége a játéknak!</string>
+    <string name="neutral_message">Nem ismerem ezt a szót.\nA gondolt szó ez volt: %s</string>
+
+    <string name="new_game">Új játék</string>
+    <string name="exit">Kilépés</string>
 </resources>
