@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -46,7 +47,7 @@ public class ArenaActivity extends AppCompatActivity {
     StringBuilder ActWordPattern;
     String LastPattern;
 
-    Map<String, List<String>> WordsByPatter = new HashMap<>();
+    Map<String, List<String>> WordsByPattern = new HashMap<>();
 
 
     // Játéktérhez szükségesek
@@ -322,10 +323,10 @@ public class ArenaActivity extends AppCompatActivity {
             String Pattern = PatternBuilder.toString();
 
             // Berakjuk a szót a megfelelő csoportba
-            if (!WordsByPatter.containsKey(Pattern)) {
-                WordsByPatter.put(Pattern, new ArrayList<>());
+            if (!WordsByPattern.containsKey(Pattern)) {
+                WordsByPattern.put(Pattern, new ArrayList<>());
             }
-            WordsByPatter.get(Pattern).add(word);
+            WordsByPattern.get(Pattern).add(word);
         }
     }
 
@@ -333,7 +334,7 @@ public class ArenaActivity extends AppCompatActivity {
         if (DIFFICULTY == 3) {
             // MAXIMUM KIVÁLASZTÁS -> Lehetetlen
             Map.Entry<String, List<String>> MaxEntry = null;
-            for (Map.Entry<String, List<String>> entry : WordsByPatter.entrySet()) {
+            for (Map.Entry<String, List<String>> entry : WordsByPattern.entrySet()) {
                 if (MaxEntry == null || entry.getValue().size() > MaxEntry.getValue().size()) {
                     MaxEntry = entry;
                 }
@@ -342,7 +343,7 @@ public class ArenaActivity extends AppCompatActivity {
             mergePatterns(MaxEntry.getKey());
             WordPool = MaxEntry.getValue();
             LastPattern = MaxEntry.getKey();
-            WordsByPatter.clear();
+            WordsByPattern.clear();
         }
         else {
             int RandomNum = (int)(Math.random() * 10);
@@ -352,7 +353,7 @@ public class ArenaActivity extends AppCompatActivity {
             Map.Entry<String, List<String>> ChoosenEntry = null;
 
             // A legnagyobb és második legnagyobb elemszámú listával rendelekező minták kiválasztása
-            for (Map.Entry<String, List<String>> entry : WordsByPatter.entrySet()) {
+            for (Map.Entry<String, List<String>> entry : WordsByPattern.entrySet()) {
                 CurrentSize = entry.getValue().size();
 
                 // 1. Ha az elem nagyobb, mint az eddigi első
@@ -399,7 +400,7 @@ public class ArenaActivity extends AppCompatActivity {
             mergePatterns(ChoosenEntry.getKey());
             WordPool = ChoosenEntry.getValue();
             LastPattern = ChoosenEntry.getKey();
-            WordsByPatter.clear();
+            WordsByPattern.clear();
         }
     }
 
